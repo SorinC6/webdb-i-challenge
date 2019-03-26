@@ -36,13 +36,35 @@
 
     SELECT *, Count(CustomerID) as 'Number of Orders Per Customer' FROM Orders GROUP BY CustomerID
 
+        
+    SELECT Customers.CustomerName ,
+    COUNT(DISTINCT Orders.OrderID) 
+    FROM Orders, Customers 
+    WHERE  Orders.CustomerID = Customers.CustomerID 
+    GROUP BY CustomerName
+
     
 ## list customers names and the number of orders per customer. Sort the list by number of orders in descending order. _Ernst Handel_ should be at the top with 10 orders followed by _QUICK-Stop_, _Rattlesnake Canyon Grocery_ and _Wartian Herkku_ with 7 orders each.
 
     
-
+    SELECT Customers.CustomerName ,
+    COUNT(DISTINCT Orders.OrderID) 
+    FROM Orders, Customers
+    WHERE Orders.CustomerID = Customers.CustomerID
+    GROUP BY Customers.CustomerName
+    ORDER BY COUNT(DISTINCT Orders.OrderID)
 
 
 ## list orders grouped by customer's city showing number of orders per city. Returns 58 Records with _Aachen_ showing 2 orders and _Albuquerque_ showing 7 orders.
 
+    SELECT Customers.City ,
+    COUNT(DISTINCT Orders.OrderID) 
+    FROM Customers, Orders
+    WHERE Orders.CustomerID = Customers.CustomerID
+    GROUP BY Customers.City
+    ORDER BY Customers.City
+
+
 ## delete all users that have no orders. Should delete 17 (or 18 if you haven't deleted the record added) records.
+
+    delete from customers where customerid not in (select customerid from orders)
